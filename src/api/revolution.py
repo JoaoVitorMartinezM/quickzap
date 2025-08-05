@@ -3,7 +3,7 @@ from typing import List
 from database.models import Agendamento
 import json
 import requests
-from time import sleep
+
 class Revolution:
 
     
@@ -32,8 +32,7 @@ class Revolution:
                             "Content-Type": "application/json",
                             "apikey": "429683C4C977415CAAFCCE10F7D57E11"
                             })
-            sleep(3)
-            
+                        
             print(resp.json())
 
 

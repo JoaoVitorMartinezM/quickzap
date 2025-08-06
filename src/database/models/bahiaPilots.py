@@ -7,7 +7,7 @@ class BahiaPilots(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     data_hora = Column(DateTime, nullable=False)
-    navio = Column(String, unique=True)
+    navio = Column(String)
     manobra = Column(String)
     origem = Column(String)
     destino = Column(String)

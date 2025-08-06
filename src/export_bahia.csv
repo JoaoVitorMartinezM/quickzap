@@ -1,9 +1,9 @@
-data_hora,manobra,destino,data_rebocador,origem,id,navio,rebocadores,situacao
-2025-08-06 07:00:00,Entrada e Atracação,PP 3 - BE,2025-08-06 10:41:18.178367,Oceano Salvador,1,BLUEFIN,AurigaAmerica,CONFIRMADA
-2025-08-06 10:30:00,Desatracação e Fundeio,Fund A1,2025-08-06 12:47:56.681749,TPG - BB,2,TAUGAS,Saam Godof,CONFIRMADA
-2025-08-06 10:30:00,Entrada e Atracação,TPG - BB,2025-08-06 12:47:56.686055,Fund A5,3,CIELO BIANCO,CaetéNicola,CONFIRMADA
-2025-08-06 13:40:00,Desatracação e Saída,Oceano Salvador,2025-08-06 13:32:02.880315,PP 2 - BB,4,PS ROMA,AurigaSN CaririAmerica,CONFIRMADA
-2025-08-06 23:30:00,Desatracação e Saída,Oceano Salvador,,Salvador - C. Santa Dulce - BB,5,MSC SHIRLEY,,PREVISTA
-2025-08-07 13:00:00,Desatracação e Saída,Oceano Salvador,,Salvador - P. Sul - BE,6,MSC KALAMATA VII,,PREVISTA
-2025-08-07 19:00:00,Desatracação e Saída,Oceano Ilhéus,2025-08-06 13:32:02.880412,Malhado 101 S - BE,7,ISHIZUCHI STAR,LynxEridanus,CONFIRMADA
-2025-08-07 07:59:00,Entrada e Atracação,TPC - Berço 3 - BB,,Fund A5,8,BBG FANGCHENG,,PREVISTA
+data_hora,manobra,destino,data_rebocador,navio,origem,id,rebocadores,situacao
+2025-08-06 23:38:00,Entrada e Atracação,PP 2 - BB,,JOSE ALENCAR,Fund A5,1,,PREVISTA
+2025-08-07 00:15:00,Desatracação e Saída,Oceano Salvador,,MSC SHIRLEY,Salvador - C. Santa Dulce - BB,2,,PREVISTA
+2025-08-07 04:00:00,Entrada e Atracação,Salvador - C. Santa Dulce - BB,,AMERICO VESPUCIO,Oceano Salvador,3,,PREVISTA
+2025-08-07 07:59:00,Entrada e Atracação,TPC - Berço 3 - BB,,BBG FANGCHENG,Fund A5,4,,PREVISTA
+2025-08-07 13:00:00,Desatracação e Saída,Oceano Salvador,,MSC KALAMATA VII,Salvador - P. Sul - BE,5,,PREVISTA
+2025-08-07 19:00:00,Desatracação e Saída,Oceano Ilhéus,2025-08-06 18:13:47.903005,ISHIZUCHI STAR,Malhado 101 S - BE,6,LynxEridanus,CONFIRMADA
+2025-08-07 22:00:00,Desatracação e Saída,Oceano Salvador,,AMERICO VESPUCIO,Salvador - C. Santa Dulce - BB,7,,PREVISTA
+2025-08-07 13:00:00,Entrada e Atracação,Salvador - P. Sul - BE,,LOG-IN POLARIS,Oceano Salvador,8,,PREVISTA

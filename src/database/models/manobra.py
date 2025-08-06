@@ -16,7 +16,7 @@ class Manobra(Base):
     calado = Column(Float)
     TBA = Column(Integer)
     DWT = Column(Integer)
-    IMO = Column(Integer, unique=True)
+    IMO = Column(Integer)
     rebocadores = Column(String)
     amarracao = Column(CHAR)
     agencia = Column(String)

@@ -15,14 +15,14 @@ class BahiaPilotsRepository():
     def find_all(self):
         return self.session.query(BahiaPilots).all()
         
-    def exists_by_navio(self, navio: str):
+    def exists_by_navio_manobra(self, navio: str, manobra: str):
         return self.session.query(
-            self.session.query(BahiaPilots).filter(BahiaPilots.navio == navio).exists()
+            self.session.query(BahiaPilots).filter(BahiaPilots.navio == navio, BahiaPilots.manobra == manobra).exists()
         ).scalar()
     
     def update_all(self, manobras: List[BahiaPilots]):
         for manobra in manobras:
-            self.session.query(BahiaPilots).filter(BahiaPilots.navio == manobra.navio).update({
+            self.session.query(BahiaPilots).filter(BahiaPilots.navio == manobra.navio, BahiaPilots.manobra == manobra.manobra).update({
                 "data_hora": manobra.data_hora,
                 "navio": manobra.navio,
                 "origem": manobra.origem,

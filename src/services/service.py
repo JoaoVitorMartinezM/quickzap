@@ -34,7 +34,7 @@ class Service:
             item[0] = datetime(day=int(dia), month=int(mes), year=datetime.now().year, hour=int(hora), minute=int(minuto))
 
             ## Trata Rebocadores
-            item[-1] = None if item[-1] is '' else item[-1]  
+            item[-1] = None if item[-1] == '' else item[-1]  
 
             if item[-1]:
                 agora = datetime.now()
@@ -53,22 +53,26 @@ class Service:
             manobra_repo = BahiaPilotsRepository(db.session)
             manobras_banco = manobra_repo.find_all()
 
-            manobras_banco_dict = {m.navio: m for m in manobras_banco}
+            manobras_banco_dict = {(m.navio,m.manobra): m for m in manobras_banco}
+
+            print(manobras_banco_dict)
 
             # Inserção inicial
             if not manobras_banco:
                 manobra_repo.create(manobras)
 
             # Novas manobras
-            novas = [m for m in manobras if m.navio not in manobras_banco_dict]
+            novas = [m for m in manobras if (m.navio,m.manobra) not in manobras_banco_dict]
             if novas:
                 manobra_repo.create(novas)
 
-            # Atualizações (comparando com base no __eq__)
+            # Atualizar
             atualizar = [
                 m for m in manobras
-                if m.navio in manobras_banco_dict and not m == manobras_banco_dict[m.navio]
+                if (m.navio,m.manobra) in manobras_banco_dict and m != manobras_banco_dict[(m.navio, m.manobra)]
             ]
+            for at in atualizar:
+                print(at)
             if atualizar:
                 manobra_repo.update_all(atualizar)
 
@@ -118,21 +122,21 @@ class Service:
             manobras_banco = manobra_repo.find_all()
             
 
-            manobras_banco_dict = {m.IMO: m for m in manobras_banco}
+            manobras_banco_dict = {(m.IMO, m.manobra): m for m in manobras_banco if m.IMO and m.manobra}
 
             # Inserção inicial
             if not manobras_banco:
                 manobra_repo.create(manobras)
 
             # Novas manobras
-            novas = [m for m in manobras if m.IMO not in manobras_banco_dict]
+            novas = [m for m in manobras if (m.IMO, m.manobra) not in manobras_banco_dict]
             if novas:
                 manobra_repo.create(novas)
 
             # Atualizações (comparando com base no __eq__)
             atualizar = [
                 m for m in manobras
-                if m.IMO in manobras_banco_dict and not m == manobras_banco_dict[m.IMO]
+                if (m.IMO, m.manobra) in manobras_banco_dict and m != manobras_banco_dict[(m.IMO, m.manobra)]
             ]
             if atualizar:
                 manobra_repo.update_all(atualizar)

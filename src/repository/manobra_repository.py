@@ -16,14 +16,14 @@ class ManobraRepository:
     def find_all(self):
         return self.session.query(Manobra).all()
         
-    def exists_by_IMO(self, IMO: int):
+    def exists_by_IMO_manobra(self, IMO: int, manobra: str):
         return self.session.query(
-            self.session.query(Manobra).filter(Manobra.IMO == IMO).exists()
+            self.session.query(Manobra).filter(Manobra.IMO == IMO, Manobra.manobra == manobra).exists()
         ).scalar()
     
     def update_all(self, manobras: List[Manobra]):
         for manobra in manobras:
-            self.session.query(Manobra).filter(Manobra.IMO == manobra.IMO).update({
+            self.session.query(Manobra).filter(Manobra.IMO == manobra.IMO, Manobra.manobra == manobra.manobra).update({
                 "agencia": manobra.agencia,
                 "amarracao": manobra.amarracao,
                 "bandeira": manobra.bandeira,

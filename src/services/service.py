@@ -1,3 +1,4 @@
+from pathlib import Path
 from api.revolution import Revolution
 from database.models import BahiaPilots, Manobra
 from database.models.agendamento import Agendamento
@@ -10,6 +11,7 @@ from typing import List
 from datetime import datetime, date, time
 from database.sqlalchemy import ORM
 from sqlalchemy.orm import joinedload
+import csv
 
 
 
@@ -70,9 +72,11 @@ class Service:
             if atualizar:
                 manobra_repo.update_all(atualizar)
 
+            self.export_csv(manobra_repo.find_all(), "export_bahia.csv")
 
 
-    def data_convertions(self):
+
+    def service_sinprapar_com_br(self):
         dados = self.scrapy.extract_sinprapar_com_br()
         linhas = dados['linhas']
         cabecalho = dados['cabecalho']
@@ -112,6 +116,7 @@ class Service:
             manobra_repo = ManobraRepository(db.session)
             agendamento_repo = AgendamentoRepository(db.session)
             manobras_banco = manobra_repo.find_all()
+            
 
             manobras_banco_dict = {m.IMO: m for m in manobras_banco}
 
@@ -143,9 +148,27 @@ class Service:
             )
 
             print(f"[NOTIFICAR] {len(agendamentos_notificar)} agendamento(s)")
-            self.revolution.notifier(agendamentos_notificar)
+            # self.revolution.notifier(agendamentos_notificar)
+            self.export_csv(manobra_repo.find_all(), "export_sinprapar.csv")
+
+
 
 
         
+    def export_csv(self, dados, filename):
+        db_path = Path().home().resolve().parent / "devma" / "projects" / "quickzap" / "src" / filename
+        with open(db_path, 'w', newline='', encoding='utf-8') as file:
+            objeto =vars(dados[0]).copy()
+            objeto.pop("_sa_instance_state", None)
+            fieldnames = objeto.keys()
 
-    
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            
+            for d in dados:
+                objeto = vars(d).copy()
+                objeto.pop("_sa_instance_state", None)
+
+                writer.writerow(objeto)
+
+

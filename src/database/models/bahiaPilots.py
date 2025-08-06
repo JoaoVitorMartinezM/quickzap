@@ -37,3 +37,4 @@ class BahiaPilots(Base):
                 and self.manobra == other.manobra and self.rebocadores == other.rebocadores  
                 and self.data_rebocador == other.data_rebocador and self.situacao == other.situacao
                 and self.origem == other.origem and self.destino == other.destino)
+ 

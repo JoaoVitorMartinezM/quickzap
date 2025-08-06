@@ -1,7 +1,9 @@
 from api.revolution import Revolution
-from database.models import Manobra
+from database.models import BahiaPilots, Manobra
 from database.models.agendamento import Agendamento
+from database.models.situacao import Situacao
 from repository.agendamento_repository import AgendamentoRepository
+from repository.bahiapilots_repository import BahiaPilotsRepository
 from repository.manobra_repository import ManobraRepository
 from scrapy import Scrapy
 from typing import List
@@ -17,85 +19,63 @@ class Service:
         self.scrapy = scrapy
         self.revolution = revolution
 
-    # def data_convertions(self):
-    #     self.scrapy.extract()
-    #     linhas = self.scrapy.linhas
-    #     print(self.scrapy.cabecalho)
+    def service_bahiapilots_com_br(self):
+        dados = self.scrapy.extract_bahiapilots_com_br()
+        linhas = dados['linhas']
 
-        
-    #     def convert(item: List[str]):
-    #         ## Data
-    #         dia, mes = item[0].split('/')
-    #         item[0] = date(day=int(dia), month=int(mes), year=int(datetime.now().year))
-    #         if not item[16].__eq__(''):
-    #             item[16] = datetime.strptime(item[16], '%d/%m/%Y %H:%M')
-    #         else:
-    #             item[16] = None
-            
-            
+        def convert(item: List[str]):
 
-    #         ## Hora
-    #         hora, minuto = item[1].split(":")
-    #         item[1] = time(hour=int(hora), minute=int(minuto))
+            ## Data
+            data, hora = item[0].split(' ')
+            dia, mes = data.split('/')
+            hora, minuto = hora.split(':')
+            item[0] = datetime(day=int(dia), month=int(mes), year=datetime.now().year, hour=int(hora), minute=int(minuto))
 
-    #         ## STR TO FLOAT
-    #         item[5] = float(item[5].replace(',', '.'))
-    #         item[6] = float(item[6].replace(',', '.'))
-    #         item[7] = float(item[7].replace(',', '.'))
-    #         item[8] = int(item[8])
-    #         item[9] = int(item[9])
-    #         item[10] = int(item[10])
+            ## Trata Rebocadores
+            item[-1] = None if item[-1] is '' else item[-1]  
 
-    #         manobra = Manobra(data=item[0], hora=item[1], navio=item[2], manobra=item[3], tipo=item[4], LOA=item[5], 
-    #                boca=item[6], calado=item[7], TBA=item[8], DWT=item[9], IMO=item[10], rebocadores=item[11], 
-    #                amarracao=item[12], agencia=item[13], bandeira=item[14], indicativo=item[15], fundeio_barra=item[16], situacao=item[17])
+            if item[-1]:
+                agora = datetime.now()
+                item.append(agora)
+                item.append(Situacao.CONFIRMADA.value)
+            else:
+                item.append(None)
+                item.append(Situacao.PREVISTA.value)
 
-            
-    #         return manobra
-        
-    #     manobras = list(map(convert, linhas))
+            return BahiaPilots(data_hora=item[0], navio=item[1], manobra=item[2], origem=item[3], destino=item[4], rebocadores=item[5], data_rebocador=item[6], situacao=item[7])
 
-    #     with ORM() as db:
-    #         manobra_repo = ManobraRepository(db.session)
-    #         agendamento_repo = AgendamentoRepository(db.session)
-    #         manobras_banco = manobra_repo.find_all()
+        manobras = list(map(convert, linhas))
 
-    #         # Save the Scrapy if first time
-    #         if len(manobras_banco) == 0:
-    #             manobra_repo.create(manobras)
 
-    #         # SAVE
-    #         salvar = list(filter(lambda x: not manobra_repo.exists_by_IMO(x.IMO), manobras))
-    #         if salvar.__len__() != 0:
-    #             manobra_repo.create(salvar)
+        with ORM() as db:
+            manobra_repo = BahiaPilotsRepository(db.session)
+            manobras_banco = manobra_repo.find_all()
 
-    #         # UPDATE
-    #         atualizar = list(filter(lambda x: x not in manobras_banco, manobras))
-    #         if atualizar.__len__() != 0:
-    #             manobra_repo.update_all(atualizar)
+            manobras_banco_dict = {m.navio: m for m in manobras_banco}
 
-    #         ids_manobras_atualizadas = list(map(lambda x: x.IMO, atualizar))
-    #         agendamentos_notificar = []
-    #         for id in ids_manobras_atualizadas:
-    #             agendamento = db.session.query(Agendamento).where(Manobra.IMO == id).first()
-    #             if agendamento is not None: 
-    #                 agendamentos_notificar.append(agendamento)
-    #         print(f'TAMANHO LISTA NOTIFICACAO: {len(agendamentos_notificar)}')
-    #         print(f'TAMANHO LISTA UPDATE: {len(atualizar)}')
-    #         print(f'TAMANHO LISTA IDs: {len(ids_manobras_atualizadas)}')
+            # Inserção inicial
+            if not manobras_banco:
+                manobra_repo.create(manobras)
 
-    #         self.revolution.notifier(agendamentos_notificar)
+            # Novas manobras
+            novas = [m for m in manobras if m.navio not in manobras_banco_dict]
+            if novas:
+                manobra_repo.create(novas)
+
+            # Atualizações (comparando com base no __eq__)
+            atualizar = [
+                m for m in manobras
+                if m.navio in manobras_banco_dict and not m == manobras_banco_dict[m.navio]
+            ]
+            if atualizar:
+                manobra_repo.update_all(atualizar)
 
 
 
-        
-    #     return manobras
-            
     def data_convertions(self):
-        self.scrapy.extract()
-        linhas = self.scrapy.linhas
-        print(self.scrapy.cabecalho)
-
+        dados = self.scrapy.extract_sinprapar_com_br()
+        linhas = dados['linhas']
+        cabecalho = dados['cabecalho']
         def convert(item: List[str]):
             # Data
             dia, mes = item[0].split('/')
@@ -160,9 +140,12 @@ class Service:
             .filter(Manobra.IMO.in_(ids_atualizados))
             .options(joinedload(Agendamento.engenheiro), joinedload(Agendamento.manobra))
             .all()
-)
+            )
 
             print(f"[NOTIFICAR] {len(agendamentos_notificar)} agendamento(s)")
             self.revolution.notifier(agendamentos_notificar)
+
+
+        
 
     

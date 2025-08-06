@@ -1,3 +1,4 @@
 from .agendamento_repository import AgendamentoRepository
 from .engenheiro_repository import EngenheiroRepository
 from .manobra_repository import ManobraRepository
+from .bahiapilots_repository import BahiaPilotsRepository

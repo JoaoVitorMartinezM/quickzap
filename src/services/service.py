@@ -55,8 +55,6 @@ class Service:
 
             manobras_banco_dict = {(m.navio,m.manobra): m for m in manobras_banco}
 
-            print(manobras_banco_dict)
-
             # Inserção inicial
             if not manobras_banco:
                 manobra_repo.create(manobras)
@@ -152,7 +150,7 @@ class Service:
             )
 
             print(f"[NOTIFICAR] {len(agendamentos_notificar)} agendamento(s)")
-            # self.revolution.notifier(agendamentos_notificar)
+            self.revolution.notifier(agendamentos_notificar)
             self.export_csv(manobra_repo.find_all(), "export_sinprapar.csv")
 
 

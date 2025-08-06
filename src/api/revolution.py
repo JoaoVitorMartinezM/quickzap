@@ -20,7 +20,7 @@ class Revolution:
 
             data_hora_str = data_hora.strftime('%d/%m/%Y %H:%M')
             manobra = a.manobra.manobra
-            mensagem = f'Olá {nome}, segue as últimas atualizações do navio {navio}:\n- PREVISÃO - {data_hora_str}\n- MANOBRA - {manobra}\n- SITUAÇÃO - {a.manobra.situacao}'
+            mensagem = f'Navio *{navio}* - ({nome})\n- PREVISÃO - {data_hora_str}\n- MANOBRA - {manobra}\n- SITUAÇÃO - {a.manobra.situacao}'
 
             ## Atualizar as informações do banco a cada 5 min e enviar mensagens no whatsapp se sofreu atualização
             data = {"number": telefone,"text": mensagem}

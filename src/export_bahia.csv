@@ -1,0 +1,40 @@
+ID,Nome do navio,Manobra,Data rebocador,Data manobra,Origem,Destino,Rebocador,Situação
+1,JOSE ALENCAR,Entrada e Atracação,2025-08-07 1:15:11,2025-08-06 23:38:00,Fund A5,PP 2 - BB,AmericaAurigaSN Cariri,CONFIRMADA
+2,MSC SHIRLEY,Desatracação e Saída,2025-08-07 1:15:11,2025-08-07 1:45:00,Salvador - C. Santa Dulce - BB,Oceano Salvador,AtriaItaqui,CONFIRMADA
+3,AMERICO VESPUCIO,Entrada e Atracação,2025-08-07 1:15:11,2025-08-07 4:00:00,Oceano Salvador,Salvador - C. Santa Dulce - BB,Svitzer JaSvitzer Vi,CONFIRMADA
+4,BBG FANGCHENG,Entrada e Atracação,2025-08-07 1:15:11,2025-08-07 7:59:00,Fund A5,TPC - Berço 3 - BB,BernardSaam Potig,CONFIRMADA
+5,MSC KALAMATA VII,Desatracação e Saída,2025-08-07 18:20:08,2025-08-07 16:30:00,Salvador - P. Sul - BE,Oceano Salvador,AtriaItaquiSvitzer Vi,CONFIRMADA
+6,LOG-IN POLARIS,Entrada e Atracação,,2025-08-08 3:00:00,Fund A5,Salvador - P. Sul - BE,,PREVISTA
+7,ISHIZUCHI STAR,Desatracação e Saída,2025-08-07 1:15:11,2025-08-07 19:00:00,Malhado 101 S - BE,Oceano Ilhéus,LynxEridanus,CONFIRMADA
+8,AMERICO VESPUCIO,Desatracação e Saída,,2025-08-08 3:30:00,Salvador - C. Santa Dulce - BB,Oceano Salvador,,PREVISTA
+9,CANOLA ZIBO,Desatracação e Saída,2025-08-07 1:15:11,2025-08-07 4:51:00,TPC - Berço 3 - BB,Oceano Salvador,ItaquiWS Scorpiu,CONFIRMADA
+10,TAUGAS,Suspender e Saída,2025-08-07 1:15:11,2025-08-07 3:30:00,Fund A1,Oceano Salvador,Nenhum,CONFIRMADA
+11,PINE ARROW,Entrada e Fundeio,2025-08-07 1:15:11,2025-08-07 10:00:00,Oceano Salvador,Fund A3,Nenhum,CONFIRMADA
+12,SAO LUIZ,Desatracação e Saída,2025-08-07 21:30:07,2025-08-07 19:14:00,PP 1 - BE,Oceano Salvador,SN CaririAurigaWS ScorpiuAmerica,CONFIRMADA
+13,MAERSK MONTE AZUL,Entrada e Atracação,2025-08-07 21:50:09,2025-08-07 19:30:00,Oceano Salvador,Salvador - P. Sul - BE,Svitzer JaSvitzer Vi,CONFIRMADA
+14,BLUEFIN,Desatracação e Saída,2025-08-08 0:00:08,2025-08-07 21:44:00,PP 3 - BE,Oceano Salvador,WS ScorpiuSN Cariri,CONFIRMADA
+15,AFRICAN PREDATOR,Entrada e Atracação,2025-08-08 11:15:08,2025-08-08 6:01:00,Oceano Salvador,EIN Berço 1 - BE,ItaquiAtria,CONFIRMADA
+16,JOSE ALENCAR,Desatracação e Saída,,2025-08-08 7:36:00,PP 2 - BB,Oceano Salvador,,PREVISTA
+17,LOG-IN POLARIS,Desatracação e Saída,2025-08-08 13:25:08,2025-08-08 12:40:00,Salvador - P. Sul - BE,Oceano Salvador,Atria,CONFIRMADA
+18,ASTERAS,Desatracação e Saída,2025-08-07 23:00:08,2025-08-07 20:30:00,TGS - Norte - BE,Oceano Salvador,AtriaItaqui,CONFIRMADA
+19,SOLIN,Entrada e Atracação,2025-08-07 23:10:08,2025-08-07 20:30:00,Fund A5,TGS - Norte - BE,CaetéNicola,CONFIRMADA
+20,CASTILLO DE HERRERA,Desatracação e Fundeio,,2025-08-08 2:00:00,TGL - Sul - BB,Fund A1,,PREVISTA
+21,MAERSK MONTE AZUL,Desatracação e Saída,,2025-08-08 2:00:00,Salvador - P. Sul - BE,Oceano Salvador,,PREVISTA
+22,LOG-IN JATOBA,Entrada e Atracação,,2025-08-08 21:00:00,Oceano Salvador,Salvador - C. Santa Dulce - BE,,PREVISTA
+23,JOSE ALENCAR,Desatracação e Fundeio,2025-08-08 11:15:08,2025-08-08 7:36:00,PP 2 - BB,Fund A2,AurigaSN CaririAmerica,CONFIRMADA
+24,AUSTIN TRADER,Desatracação e Saída,2025-08-08 11:45:08,2025-08-08 9:00:00,TGS - Sul - BB,Oceano Salvador,BernardSaam Potig,CONFIRMADA
+25,FEDERAL DEE,Entrada e Atracação,2025-08-08 12:05:08,2025-08-08 9:00:00,Fund A5,TGS - Sul - BB,AurigaLynx,CONFIRMADA
+26,HANS SCHULTE,Entrada e Atracação,2025-08-08 12:45:08,2025-08-08 10:30:00,Fund A5,Salvador - C. Santa Dulce - BB,BernardSaam Potig,CONFIRMADA
+27,CASTILLO DE HERRERA,Suspender e Saída,2025-08-08 13:25:08,2025-08-08 13:30:00,Fund A1,Oceano Salvador,Nenhum,CONFIRMADA
+28,MSC URSULA VI,Entrada e Atracação,2025-08-08 13:25:08,2025-08-08 14:00:00,Fund A5,Salvador - P. Sul - BE,AtriaItaqui,CONFIRMADA1,JOSE ALENCAR,Entrada e Atracação,,2025-08-06 23:38:00,Fund A5,PP 2 - BB,,PREVISTA
+2,MSC SHIRLEY,Desatracação e Saída,,2025-08-07 00:15:00,Salvador - C. Santa Dulce - BB,Oceano Salvador,,PREVISTA
+3,AMERICO VESPUCIO,Entrada e Atracação,,2025-08-07 04:00:00,Oceano Salvador,Salvador - C. Santa Dulce - BB,,PREVISTA
+4,BBG FANGCHENG,Entrada e Atracação,,2025-08-07 07:59:00,Fund A5,TPC - Berço 3 - BB,,PREVISTA
+5,MSC KALAMATA VII,Desatracação e Saída,,2025-08-07 13:00:00,Salvador - P. Sul - BE,Oceano Salvador,,PREVISTA
+6,ISHIZUCHI STAR,Desatracação e Saída,2025-08-06 18:24:49.132322,2025-08-07 19:00:00,Malhado 101 S - BE,Oceano Ilhéus,LynxEridanus,CONFIRMADA
+7,AMERICO VESPUCIO,Desatracação e Saída,,2025-08-07 22:00:00,Salvador - C. Santa Dulce - BB,Oceano Salvador,,PREVISTA
+8,LOG-IN POLARIS,Entrada e Atracação,,2025-08-07 14:00:00,Oceano Salvador,Salvador - P. Sul - BE,,PREVISTA
+9,MSC URSULA VI,Entrada e Atracação,2025-08-08 16:15:35.707206,2025-08-08 14:00:00,Fund A5,Salvador - P. Sul - BE,AtriaItaqui,CONFIRMADA
+10,BOW CARDINAL,Entrada e Atracação,2025-08-08 16:41:55.372325,2025-08-08 18:00:00,Fund A5,DOW - QB,CaetéNicola,CONFIRMADA
+11,LOG-IN JATOBA,Entrada e Atracação,,2025-08-08 21:00:00,Oceano Salvador,Salvador - C. Santa Dulce - BE,,PREVISTA
+12,HANS SCHULTE,Desatracação e Saída,,2025-08-08 20:30:00,Salvador - C. Santa Dulce - BB,Oceano Salvador,,PREVISTA

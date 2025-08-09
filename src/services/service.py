@@ -161,18 +161,33 @@ class Service:
         
     def export_csv(self, dados, filename):
         db_path = Path(__file__).resolve().parent.parent / filename
-        with open(db_path, 'w', newline='', encoding='utf-8') as file:
+        with open(db_path, 'a', newline='', encoding='utf-8') as file:
+            file_exists = db_path.exists() and db_path.stat().st_size > 0
             objeto =vars(dados[0]).copy()
             objeto.pop("_sa_instance_state", None)
             fieldnames = objeto.keys()
-
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
+            print(objeto)
+            print(fieldnames)
+            writer = csv.DictWriter(file, fieldnames=['ID', 'Nome do navio', 'Manobra', 'Data rebocador', 'Data manobra', 'Origem', 'Destino', 'Rebocador', 'Situação'])
+            if not file_exists:
+                writer.writeheader()
             
             for d in dados:
                 objeto = vars(d).copy()
                 objeto.pop("_sa_instance_state", None)
 
-                writer.writerow(objeto)
+                objeto_new = {
+                    'ID': objeto['id'],
+                    'Nome do navio': objeto['navio'],
+                    'Manobra': objeto['manobra'],
+                    'Data rebocador': objeto['data_rebocador'],
+                    'Data manobra': objeto['data_hora'],
+                    'Origem': objeto['origem'],
+                    'Destino': objeto['destino'],
+                    'Rebocador': objeto['rebocadores'],
+                    'Situação': objeto['situacao']
+                }
+
+                writer.writerow(objeto_new)
 
 

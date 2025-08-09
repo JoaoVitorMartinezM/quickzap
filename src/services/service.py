@@ -152,7 +152,7 @@ class Service:
             )
 
             print(f"[NOTIFICAR] {len(agendamentos_notificar)} agendamento(s)")
-            # self.revolution.notifier(agendamentos_notificar)
+            self.revolution.notifier(agendamentos_notificar)
             self.export_csv(manobra_repo.find_all(), "export_sinprapar.csv")
 
 

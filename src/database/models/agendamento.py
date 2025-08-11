@@ -12,10 +12,10 @@ class Agendamento(Base):
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     engenheiro_id = Column(ForeignKey("engenheiros.id"), nullable=False)
-    manobra_id = Column(ForeignKey("manobras.id"), nullable=False)
+    navio_id = Column(ForeignKey("navios.IMO"), nullable=False)
 
     engenheiro = relationship("Engenheiro", back_populates="agendamentos")
-    manobra = relationship("Manobra")
+    navio = relationship("Navio")
 
     def __init__(self, engenheiro, manobra):
         self.engenheiro = engenheiro

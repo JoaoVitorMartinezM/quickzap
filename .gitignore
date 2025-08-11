@@ -9,3 +9,4 @@ pyvenv.cfg
 *.pyc
 *.Identifier
 *.db
+*.csv

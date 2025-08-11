@@ -2,6 +2,7 @@ from pathlib import Path
 from api.revolution import Revolution
 from database.models import BahiaPilots, Manobra
 from database.models.agendamento import Agendamento
+from database.models.navio import Navio
 from database.models.situacao import Situacao
 from repository.agendamento_repository import AgendamentoRepository
 from repository.bahiapilots_repository import BahiaPilotsRepository
@@ -105,11 +106,13 @@ class Service:
             item[9] = int(item[9])
             item[10] = int(item[10])
 
+            navio = Navio(IMO=item[10], agencia=item[13], bandeira=item[14], nome=item[2])
+
             return Manobra(
-                data=item[0], hora=item[1], navio=item[2], manobra=item[3], tipo=item[4],
+                data=item[0], hora=item[1], manobra=item[3], tipo=item[4],
                 LOA=item[5], boca=item[6], calado=item[7], TBA=item[8], DWT=item[9],
-                IMO=item[10], rebocadores=item[11], amarracao=item[12], agencia=item[13],
-                bandeira=item[14], indicativo=item[15], fundeio_barra=item[16], situacao=item[17]
+                IMO=item[10], rebocadores=item[11], amarracao=item[12],
+                indicativo=item[15], fundeio_barra=item[16], situacao=item[17], navio=navio
             )
 
         manobras = list(map(convert, linhas))
@@ -120,32 +123,37 @@ class Service:
             manobras_banco = manobra_repo.find_all()
             
 
-            manobras_banco_dict = {(m.IMO, m.manobra): m for m in manobras_banco if m.IMO and m.manobra}
+            manobras_banco_dict = {(m.navio.IMO, m.manobra): m for m in manobras_banco if m.navio.IMO and m.manobra}
 
             # Inserção inicial
             if not manobras_banco:
                 manobra_repo.create(manobras)
 
             # Novas manobras
-            novas = [m for m in manobras if (m.IMO, m.manobra) not in manobras_banco_dict]
+            novas = [m for m in manobras if (m.navio.IMO, m.manobra) not in manobras_banco_dict]
             if novas:
                 manobra_repo.create(novas)
 
             # Atualizações (comparando com base no __eq__)
             atualizar = [
                 m for m in manobras
-                if (m.IMO, m.manobra) in manobras_banco_dict and m != manobras_banco_dict[(m.IMO, m.manobra)]
+                if (m.navio.IMO, m.manobra) in manobras_banco_dict and m != manobras_banco_dict[(m.navio.IMO, m.manobra)]
             ]
             if atualizar:
                 manobra_repo.update_all(atualizar)
 
             # Buscar agendamentos que precisam ser notificados
-            ids_atualizados = set(m.IMO for m in atualizar)
+            ids_atualizados = set(m.navio.IMO for m in atualizar)
+            manobras_atualizadas = set(m.manobra for m in atualizar)
             agendamentos_notificar = (
-            db.session.query(Agendamento)
-            .join(Manobra, Agendamento.manobra_id == Manobra.id)
-            .filter(Manobra.IMO.in_(ids_atualizados))
-            .options(joinedload(Agendamento.engenheiro), joinedload(Agendamento.manobra))
+            db.session.query(Agendamento, Manobra)
+            .join(Navio, Agendamento.navio_id == Navio.IMO)
+            .join(Manobra, Agendamento.navio_id == Manobra.navio_id)
+            .filter(
+                Navio.IMO.in_(ids_atualizados),
+                Manobra.manobra.in_(manobras_atualizadas)
+                )
+            .options(joinedload(Agendamento.engenheiro), joinedload(Agendamento.navio))
             .all()
             )
 
@@ -158,32 +166,46 @@ class Service:
 
         
     def export_csv(self, dados, filename):
+
         db_path = Path(__file__).resolve().parent.parent / filename
         with open(db_path, 'a', newline='', encoding='utf-8') as file:
             file_exists = db_path.exists() and db_path.stat().st_size > 0
             objeto =vars(dados[0]).copy()
             objeto.pop("_sa_instance_state", None)
             fieldnames = objeto.keys()
-            writer = csv.DictWriter(file, fieldnames=['ID', 'Nome do navio', 'Manobra', 'Data rebocador', 'Data manobra', 'Origem', 'Destino', 'Rebocador', 'Situação'])
-            if not file_exists:
-                writer.writeheader()
             
-            for d in dados:
-                objeto = vars(d).copy()
-                objeto.pop("_sa_instance_state", None)
+            if isinstance(dados[0], BahiaPilots):
+                writer = csv.DictWriter(file, fieldnames=['ID', 'Nome do navio', 'Manobra', 'Data rebocador', 'Data manobra', 'Origem', 'Destino', 'Rebocador', 'Situação'])
+                if not file_exists:
+                    writer.writeheader()
+                
+                for d in dados:
+                    objeto = vars(d).copy()
+                    objeto.pop("_sa_instance_state", None)
 
-                objeto_new = {
-                    'ID': objeto['id'],
-                    'Nome do navio': objeto['navio'],
-                    'Manobra': objeto['manobra'],
-                    'Data rebocador': objeto['data_rebocador'],
-                    'Data manobra': objeto['data_hora'],
-                    'Origem': objeto['origem'],
-                    'Destino': objeto['destino'],
-                    'Rebocador': objeto['rebocadores'],
-                    'Situação': objeto['situacao']
-                }
+                    objeto_new = {
+                        'ID': objeto['id'],
+                        'Nome do navio': objeto['navio'],
+                        'Manobra': objeto['manobra'],
+                        'Data rebocador': objeto['data_rebocador'],
+                        'Data manobra': objeto['data_hora'],
+                        'Origem': objeto['origem'],
+                        'Destino': objeto['destino'],
+                        'Rebocador': objeto['rebocadores'],
+                        'Situação': objeto['situacao']
+                    }
 
-                writer.writerow(objeto_new)
+                    writer.writerow(objeto_new)
+            else:
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                if not file_exists:
+                    writer.writeheader()
+                
+                for d in dados:
+                    objeto = vars(d).copy()
+                    objeto.pop("_sa_instance_state", None)
+                    writer.writerow(objeto)
+
+
 
 

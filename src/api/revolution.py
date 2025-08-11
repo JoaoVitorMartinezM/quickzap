@@ -9,18 +9,18 @@ class Revolution:
     
     def notifier(self, agendamentos: List[Agendamento]):
 
-        for a in agendamentos:
+        for a, m in agendamentos:
             nome = a.engenheiro.nome
             telefone = a.engenheiro.telefone
-            navio = a.manobra.navio
-            data = a.manobra.data
-            hora = a.manobra.hora
+            navio = a.navio.nome
+            data = m.data
+            hora = m.hora
             # Combinar em um datetime completo
             data_hora = datetime.combine(data, hora)
 
             data_hora_str = data_hora.strftime('%d/%m/%Y %H:%M')
-            manobra = a.manobra.manobra
-            mensagem = f'Navio *{navio}* - ({nome})\n- PREVISÃO - {data_hora_str}\n- MANOBRA - {manobra}\n- SITUAÇÃO - {a.manobra.situacao}'
+            manobra = m.manobra
+            mensagem = f'Navio *{navio}* - ({nome})\n- PREVISÃO - {data_hora_str}\n- MANOBRA - {manobra}\n- SITUAÇÃO - {m.situacao}'
 
             ## Atualizar as informações do banco a cada 5 min e enviar mensagens no whatsapp se sofreu atualização
             data = {"number": telefone,"text": mensagem}

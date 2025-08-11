@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date, Time, Float, CHAR, DateTime
-
+from sqlalchemy import Column, Integer, String, Date, Time, Float, CHAR, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from database.base import Base
 
 class Manobra(Base):
@@ -8,7 +8,6 @@ class Manobra(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     data = Column(Date, nullable=False)
     hora = Column(Time, nullable=False)
-    navio = Column(String)
     manobra = Column(String)
     tipo = Column(String)
     LOA = Column(Float)
@@ -19,16 +18,17 @@ class Manobra(Base):
     IMO = Column(Integer)
     rebocadores = Column(String)
     amarracao = Column(CHAR)
-    agencia = Column(String)
-    bandeira = Column(String)
     indicativo = Column(String)
     fundeio_barra = Column(DateTime)
     situacao = Column(String)
+    navio_id = Column(ForeignKey("navios.IMO"), nullable=False)
+
+    navio = relationship("Navio")
 
 
     def __init__(self,data, hora, navio, manobra,
                   tipo, LOA, boca, calado, TBA, DWT,
-                    IMO, rebocadores, amarracao, agencia, bandeira,
+                    IMO, rebocadores, amarracao,
                       indicativo, fundeio_barra, situacao):
         self.data = data
         self.hora = hora
@@ -43,14 +43,12 @@ class Manobra(Base):
         self.IMO = IMO
         self.rebocadores = rebocadores
         self.amarracao = amarracao
-        self.agencia = agencia
-        self.bandeira = bandeira
         self.indicativo = indicativo
         self.fundeio_barra = fundeio_barra
         self.situacao = situacao
 
     def __str__(self):
-        return f'Navio: {self.navio} Bandeira: {self.bandeira} IMO: {self.IMO}'
+        return f'Manobra: {self.manobra} Situação: {self.situacao} Navio: {self.navio}'
     
     def __eq__(self, other):
         if not isinstance(other, Manobra):
@@ -59,5 +57,5 @@ class Manobra(Base):
                 and self.manobra == other.manobra and self.tipo == other.tipo and self.LOA == other.LOA 
                 and self.boca == other.boca and self.calado == other.calado and self.TBA == other.TBA 
                 and self.DWT == other.DWT and self.IMO == other.IMO and self.rebocadores == other.rebocadores 
-                and self.amarracao == other.amarracao and self.agencia == other.agencia and self.bandeira == other.bandeira 
-                and self.indicativo == other.indicativo and self.fundeio_barra == other.fundeio_barra and self.situacao == other.situacao)
+                and self.amarracao == other.amarracao and self.indicativo == other.indicativo
+                and self.fundeio_barra == other.fundeio_barra and self.situacao == other.situacao)

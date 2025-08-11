@@ -55,8 +55,6 @@ class Service:
 
             manobras_banco_dict = {(m.navio,m.manobra): m for m in manobras_banco}
 
-            print(manobras_banco_dict)
-
             # Inserção inicial
             if not manobras_banco:
                 manobra_repo.create(manobras)
@@ -166,8 +164,6 @@ class Service:
             objeto =vars(dados[0]).copy()
             objeto.pop("_sa_instance_state", None)
             fieldnames = objeto.keys()
-            print(objeto)
-            print(fieldnames)
             writer = csv.DictWriter(file, fieldnames=['ID', 'Nome do navio', 'Manobra', 'Data rebocador', 'Data manobra', 'Origem', 'Destino', 'Rebocador', 'Situação'])
             if not file_exists:
                 writer.writeheader()

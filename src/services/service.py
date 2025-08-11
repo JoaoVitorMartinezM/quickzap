@@ -153,6 +153,7 @@ class Service:
                 Navio.IMO.in_(ids_atualizados),
                 Manobra.manobra.in_(manobras_atualizadas)
                 )
+                .all()
             )
 
             print(f"[NOTIFICAR] {len(agendamentos_notificar)} agendamento(s)")
